@@ -1,0 +1,178 @@
+---
+title: "Quickstart"
+description: "Install anylang-dev and choose setup instructions for Vite or Next.js."
+---
+
+Use the framework tabs below to pick your setup path. Tabs with the same title stay synchronized across the page.
+
+## Install
+
+<Tabs>
+  <Tab title="Vite" icon="zap">
+    ```bash
+    npm install --save-dev anylang-dev
+    npx anylang init
+    ```
+  </Tab>
+  <Tab title="Next.js" icon="triangle">
+    ```bash
+    npm install --save-dev anylang-dev
+    npx anylang init
+    ```
+  </Tab>
+</Tabs>
+
+## Configure your framework
+
+<Tabs>
+  <Tab title="Vite" icon="zap">
+    Add the anylang plugin before your React plugin in `vite.config.ts`.
+
+    ```ts vite.config.ts
+    import { defineConfig } from "vite";
+    import react from "@vitejs/plugin-react";
+    import anylang from "anylang-dev/vite";
+
+    export default defineConfig({
+      plugins: [anylang(), react()],
+    });
+    ```
+
+    If you use TypeScript and `tr="false"`, add the JSX type augmentation once.
+
+    ```ts src/vite-env.d.ts
+    import "anylang-dev/jsx-runtime";
+    ```
+  </Tab>
+  <Tab title="Next.js" icon="triangle">
+    Wrap your Next config with `anylang` in `next.config.mjs`.
+
+    ```js next.config.mjs
+    import anylang from "anylang-dev/next";
+
+    const nextConfig = {};
+
+    export default anylang({
+      runtimeImport: "@/anylang",
+    })(nextConfig);
+    ```
+
+    If you use TypeScript and `tr="false"`, add the JSX type augmentation in a global declaration file.
+
+    ```ts src/anylang-env.d.ts
+    import "anylang-dev/jsx-runtime";
+    ```
+  </Tab>
+</Tabs>
+
+## Scan strings
+
+```bash
+npx anylang scan
+```
+
+`scan` creates locale files and the generated runtime without calling an AI provider.
+
+```text
+locales/
+  en.json
+  hi.json
+  anylang.lock.json
+src/
+  anylang.ts
+```
+
+## Wrap your app
+
+<Tabs>
+  <Tab title="Vite" icon="zap">
+    Wrap your React tree once with `AnyLangProvider`.
+
+    ```tsx src/main.tsx
+    import { StrictMode } from "react";
+    import { createRoot } from "react-dom/client";
+    import { AnyLangProvider } from "@/anylang";
+    import { App } from "./App";
+
+    createRoot(document.getElementById("root")!).render(
+      <StrictMode>
+        <AnyLangProvider>
+          <App />
+        </AnyLangProvider>
+      </StrictMode>
+    );
+    ```
+  </Tab>
+  <Tab title="Next.js" icon="triangle">
+    Create a client provider.
+
+    ```tsx app/providers.tsx
+    "use client";
+
+    import { AnyLangProvider } from "@/anylang";
+
+    export function Providers({ children }: { children: React.ReactNode }) {
+      return <AnyLangProvider>{children}</AnyLangProvider>;
+    }
+    ```
+
+    Wrap your root layout.
+
+    ```tsx app/layout.tsx
+    import { Providers } from "./providers";
+
+    export default function RootLayout({ children }: { children: React.ReactNode }) {
+      return (
+        <html lang="en">
+          <body>
+            <Providers>{children}</Providers>
+          </body>
+        </html>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Add a language selector
+
+Build any selector UI and pass the selected locale to `setLanguage`.
+
+```tsx
+import { useLanguage, type LanguageCode } from "@/anylang";
+
+export function LanguageSelector() {
+  const { language, languages, setLanguage } = useLanguage();
+
+  return (
+    <select
+      value={language}
+      onChange={(event) => setLanguage(event.target.value as LanguageCode)}
+    >
+      {languages.map((language) => (
+        <option key={language.code} value={language.code}>
+          {language.nativeLabel}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+## Translate
+
+Add a provider key to `.env`.
+
+```env
+GEMINI_API_KEY=your-provider-key
+```
+
+Then run:
+
+```bash
+npx anylang translate
+```
+
+<Info>
+  `translate` scans first, retranslates changed strings, and skips unchanged target entries.
+</Info>

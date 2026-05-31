@@ -1,0 +1,58 @@
+---
+title: "Introduction"
+description: "Bring-your-own-key website translation for Vite and Next.js apps."
+---
+
+`anylang-dev` scans your source code, writes JSON locale files, and can automatically translate static JSX text with your own AI provider key.
+
+<CardGroup cols={2}>
+  <Card title="Framework aware" icon="blocks" href="/quickstart">
+    Use the same docs page to choose Vite or Next.js setup instructions.
+  </Card>
+  <Card title="Bring your own key" icon="key-round" href="/providers">
+    Translate with Gemini, OpenAI, Anthropic, Cohere, Mistral, and other providers.
+  </Card>
+</CardGroup>
+
+## How it works
+
+<Steps>
+  <Step title="Install and initialize">
+    Run `anylang init` to create `anylang.config.json`.
+  </Step>
+  <Step title="Add the framework integration">
+    Add the Vite plugin or Next.js config wrapper so static JSX text can be transformed.
+  </Step>
+  <Step title="Scan source strings">
+    Run `anylang scan` to create source and target locale files without provider calls.
+  </Step>
+  <Step title="Translate">
+    Add your provider API key to `.env`, then run `anylang translate`.
+  </Step>
+</Steps>
+
+## Example
+
+Write normal JSX:
+
+```tsx
+<h1>Translate your website with anylang</h1>
+<p tr="false">BrandName</p>
+```
+
+For dynamic text, use the generated runtime:
+
+```tsx
+import { useTr } from "@/anylang";
+
+export function SaveButton() {
+  const $tr = useTr();
+  return <button>{$tr("actions.save", "Save")}</button>;
+}
+```
+
+The `tr="false"` attribute skips translation for text that should stay exactly as written.
+
+<Tip>
+  Start with the quickstart and choose your framework. Mintlify will keep matching tab choices in sync across the page.
+</Tip>

@@ -1,0 +1,88 @@
+---
+title: "shadcn Selector"
+description: "Build an anylang language selector with the shadcn/ui Select component."
+---
+
+Use shadcn/ui's `Select` component when your app already uses shadcn and you want the language selector to match the rest of your interface.
+
+## Install Select
+
+<Tabs>
+  <Tab title="npm">
+    ```bash
+    npx shadcn@latest add select
+    ```
+  </Tab>
+  <Tab title="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add select
+    ```
+  </Tab>
+  <Tab title="yarn">
+    ```bash
+    yarn dlx shadcn@latest add select
+    ```
+  </Tab>
+  <Tab title="bun">
+    ```bash
+    bunx shadcn@latest add select
+    ```
+  </Tab>
+</Tabs>
+
+## Create the selector
+
+Connect shadcn's controlled `Select` to anylang with `value` and `onValueChange`.
+
+```tsx
+import { useLanguage, type LanguageCode } from "@/anylang";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+export function LanguageSelector() {
+  const { language, languages, setLanguage } = useLanguage();
+
+  return (
+    <Select
+      value={language}
+      onValueChange={(value) => setLanguage(value as LanguageCode)}
+    >
+      <SelectTrigger className="w-[180px]" aria-label="Select language">
+        <SelectValue placeholder="Language" />
+      </SelectTrigger>
+      <SelectContent>
+        {languages.map((language) => (
+          <SelectItem key={language.code} value={language.code}>
+            {language.nativeLabel}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+```
+
+## Use it anywhere
+
+Render the selector anywhere inside `AnyLangProvider`.
+
+```tsx
+import { LanguageSelector } from "@/components/language-selector";
+
+export function Header() {
+  return (
+    <header>
+      <LanguageSelector />
+    </header>
+  );
+}
+```
+
+<Info>
+  The selector reads available languages from the generated anylang runtime, so it updates when you change `targetLocales` and run `anylang scan` again.
+</Info>

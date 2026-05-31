@@ -1,0 +1,79 @@
+---
+title: "Runtime"
+description: "Use the generated runtime helpers in your app."
+---
+
+`anylang scan` generates a runtime file, usually `src/anylang.ts`, from your source and target locales. Import from that generated file in app code.
+
+```tsx
+import {
+  AnyLangProvider,
+  useLanguage,
+  useTr,
+  type LanguageCode,
+} from "@/anylang";
+```
+
+## Provider
+
+Wrap the application once with `AnyLangProvider`.
+
+```tsx
+<AnyLangProvider>
+  <App />
+</AnyLangProvider>
+```
+
+## Static JSX text
+
+After the Vite plugin or Next.js wrapper is configured, normal static JSX text is translated automatically.
+
+```tsx
+export function Hero() {
+  return <h1>Translate your website with anylang</h1>;
+}
+```
+
+Use `tr="false"` for strings that should not be translated.
+
+```tsx
+<p tr="false">BrandName</p>
+```
+
+## Dynamic text
+
+Use `useTr` when the string is dynamic, conditional, or not plain JSX text.
+
+```tsx
+import { useTr } from "@/anylang";
+
+export function SaveButton() {
+  const $tr = useTr();
+  return <button>{$tr("actions.save", "Save")}</button>;
+}
+```
+
+## Language state
+
+Use `useLanguage` to read and update the selected locale.
+
+```tsx
+import { useLanguage, type LanguageCode } from "@/anylang";
+
+export function LanguageSelector() {
+  const { language, languages, setLanguage } = useLanguage();
+
+  return (
+    <select
+      value={language}
+      onChange={(event) => setLanguage(event.target.value as LanguageCode)}
+    >
+      {languages.map((language) => (
+        <option key={language.code} value={language.code}>
+          {language.nativeLabel}
+        </option>
+      ))}
+    </select>
+  );
+}
+```

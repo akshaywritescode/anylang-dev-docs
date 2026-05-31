@@ -1,0 +1,101 @@
+---
+title: "Configuration"
+description: "Configure source locales, target locales, output paths, runtime generation, and JSX extraction."
+---
+
+`anylang init` creates `anylang.config.json`.
+
+```json
+{
+  "sourceLocale": "en",
+  "targetLocales": ["hi"],
+  "include": ["src/**/*.{js,jsx,ts,tsx,vue,html}"],
+  "exclude": ["node_modules", ".git", "dist", "build", ".next"],
+  "outDir": "locales",
+  "runtime": {
+    "output": "src/anylang.ts",
+    "importFrom": "anylang-dev/runtime"
+  },
+  "functionName": "$tr",
+  "autoTranslate": {
+    "jsx": true,
+    "keyPrefix": "auto"
+  },
+  "provider": {
+    "name": "openrouter",
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "model": "openai/gpt-4.1-mini"
+  }
+}
+```
+
+## Locale settings
+
+`sourceLocale` is the language you write in your source files. `targetLocales` is the list of locales anylang prepares and translates.
+
+```json
+{
+  "sourceLocale": "en",
+  "targetLocales": ["hi", "ja", "es"]
+}
+```
+
+## File matching
+
+By default, anylang scans `.js`, `.jsx`, `.ts`, `.tsx`, `.vue`, and `.html` files under `src`.
+
+```json
+{
+  "include": ["src/**/*.{js,jsx,ts,tsx,vue,html}"],
+  "exclude": ["node_modules", ".git", "dist", "build", ".next"]
+}
+```
+
+## Output
+
+`outDir` controls locale JSON output. `runtime.output` controls the generated TypeScript runtime file.
+
+```json
+{
+  "outDir": "locales",
+  "runtime": {
+    "output": "src/anylang.ts",
+    "importFrom": "anylang-dev/runtime"
+  }
+}
+```
+
+## Auto JSX translation
+
+When `autoTranslate.jsx` is enabled, static JSX text can be transformed by the Vite plugin or Next.js wrapper.
+
+```json
+{
+  "autoTranslate": {
+    "jsx": true,
+    "keyPrefix": "auto"
+  }
+}
+```
+
+Use `$tr("key", "source text")` for dynamic text or places where you want a stable hand-written key.
+
+## API provider
+
+OpenRouter is a good default provider because it lets you switch models without changing the rest of your anylang setup.
+
+```json
+{
+  "provider": {
+    "name": "openrouter",
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "model": "openai/gpt-4.1-mini"
+  }
+}
+```
+
+Add your OpenRouter key to `.env`.
+
+```env
+OPENROUTER_API_KEY=your-openrouter-key
+```

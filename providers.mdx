@@ -1,0 +1,98 @@
+---
+title: "Providers"
+description: "Use your own API key with OpenRouter, Gemini, OpenAI, Anthropic, and other translation providers."
+---
+
+anylang is bring-your-own-key. It loads `.env` from the project where you run the CLI and uses the provider configured in `anylang.config.json`.
+
+## Recommended: OpenRouter
+
+Use OpenRouter if you want one API key and the flexibility to choose from many models.
+
+```json
+{
+  "provider": {
+    "name": "openrouter",
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "model": "openai/gpt-4.1-mini"
+  }
+}
+```
+
+```env
+OPENROUTER_API_KEY=your-openrouter-key
+```
+
+<Tip>
+  You can change `model` to any OpenRouter model id supported by your account.
+</Tip>
+
+## Provider keys
+
+| Provider | `provider.name` | `.env` key |
+| --- | --- | --- |
+| Gemini | `gemini` | `GEMINI_API_KEY` |
+| OpenAI | `openai` | `OPENAI_API_KEY` |
+| Anthropic | `anthropic` | `ANTHROPIC_API_KEY` |
+| Cohere | `cohere` | `COHERE_API_KEY` |
+| Mistral | `mistral` | `MISTRAL_API_KEY` |
+| DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` |
+| Groq | `groq` | `GROQ_API_KEY` |
+| OpenRouter | `openrouter` | `OPENROUTER_API_KEY` |
+| Perplexity | `perplexity` | `PERPLEXITY_API_KEY` |
+| xAI | `xai` | `XAI_API_KEY` |
+| Together AI | `together` | `TOGETHER_API_KEY` |
+| Fireworks AI | `fireworks` | `FIREWORKS_API_KEY` |
+| Custom OpenAI-compatible | `openai-compatible` | `ANYLANG_API_KEY` |
+
+## Gemini
+
+```json
+{
+  "provider": {
+    "name": "gemini",
+    "model": "gemini-2.5-flash"
+  }
+}
+```
+
+```env
+GEMINI_API_KEY=your-provider-key
+```
+
+## Anthropic
+
+```json
+{
+  "provider": {
+    "name": "anthropic",
+    "model": "claude-3-5-haiku-latest"
+  }
+}
+```
+
+```env
+ANTHROPIC_API_KEY=your-provider-key
+```
+
+## OpenAI-compatible gateways
+
+Use `openai-compatible` with a custom `baseUrl` and `model`.
+
+```json
+{
+  "provider": {
+    "name": "openai-compatible",
+    "baseUrl": "https://your-gateway.example.com/v1",
+    "model": "your-model"
+  }
+}
+```
+
+```env
+ANYLANG_API_KEY=your-provider-key
+```
+
+<Warning>
+  anylang does not include a hosted translation key, proxy requests, track usage, or store billing data.
+</Warning>
