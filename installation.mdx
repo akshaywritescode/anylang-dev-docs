@@ -62,5 +62,17 @@ Use the framework tabs below to pick your setup path. Tabs with the same title s
     ```ts anylang-env.d.ts
     import "anylang-dev/jsx-runtime";
     ```
+
+    Update your `package.json` scripts to use the `--webpack` flag, as Next.js Turbopack is not supported by the plugin yet.
+
+    ```json package.json
+    "scripts": {
+      "dev": "next dev --webpack",
+      "build": "next build --webpack",
+      "start": "next start",
+      "lint": "eslint"
+    }
+    ```
+
   </Tab>
 </Tabs>
