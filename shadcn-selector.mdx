@@ -35,6 +35,8 @@ Use shadcn/ui's `Select` component when your app already uses shadcn and you wan
 Connect shadcn's controlled `Select` to anylang with `value` and `onValueChange`.
 
 ```tsx
+"use client";
+
 import { useLanguage, type LanguageCode } from "@/anylang";
 import {
   Select,

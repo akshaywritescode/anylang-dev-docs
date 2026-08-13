@@ -79,6 +79,8 @@ src/
 Build any selector UI and pass the selected locale to `setLanguage`.
 
 ```tsx
+"use client";
+
 import { useLanguage, type LanguageCode } from "@/anylang";
 
 export function LanguageSelector() {
