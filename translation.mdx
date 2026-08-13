@@ -1,0 +1,36 @@
+---
+title: "Translation"
+description: "Configure your provider key and translate your source strings."
+---
+
+## Setup Provider
+
+anylang uses the provider configured in your `anylang.config.json` file. By default, it uses OpenRouter or Gemini.
+
+Add your provider key to your `.env` file at the root of your project:
+
+```env
+# For Gemini
+GEMINI_API_KEY=your-provider-key
+
+# For OpenRouter
+OPENROUTER_API_KEY=your-provider-key
+```
+
+<Info>
+  anylang is bring-your-own-key. Check out the [Providers](/providers) page for a full list of supported models (OpenAI, Anthropic, Mistral, etc.) and their corresponding environment variables.
+</Info>
+
+## Translate
+
+Once your key is configured, run the translation command:
+
+```bash
+npx anylang translate
+```
+
+<Info>
+  `translate` automatically scans your files first, retranslates any changed strings, and intelligently skips unchanged target entries to save on API costs.
+</Info>
+
+You're all set! Your `locales` folder will now be populated with the translated strings, and they will appear in your app.

@@ -1,71 +1,11 @@
 ---
-title: "Quickstart"
-description: "Install anylang-dev and choose setup instructions for Vite or Next.js."
+title: "App Setup"
+description: "Scan strings, wrap your app with the provider, and add a language selector."
 ---
 
-Use the framework tabs below to pick your setup path. Tabs with the same title stay synchronized across the page.
-
-## Install
-
-<Tabs>
-  <Tab title="Vite" icon="zap">
-    ```bash
-    npm install --save-dev anylang-dev
-    npx anylang init
-    ```
-  </Tab>
-  <Tab title="Next.js" icon="triangle">
-    ```bash
-    npm install --save-dev anylang-dev
-    npx anylang init
-    ```
-  </Tab>
-</Tabs>
-
-## Configure your framework
-
-<Tabs>
-  <Tab title="Vite" icon="zap">
-    Add the anylang plugin before your React plugin in `vite.config.ts`.
-
-    ```ts vite.config.ts
-    import { defineConfig } from "vite";
-    import react from "@vitejs/plugin-react";
-    import anylang from "anylang-dev/vite";
-
-    export default defineConfig({
-      plugins: [anylang(), react()],
-    });
-    ```
-
-    If you use TypeScript and `tr="false"`, add the JSX type augmentation once.
-
-    ```ts src/vite-env.d.ts
-    import "anylang-dev/jsx-runtime";
-    ```
-  </Tab>
-  <Tab title="Next.js" icon="triangle">
-    Wrap your Next config with `anylang` in `next.config.mjs`.
-
-    ```js next.config.mjs
-    import anylang from "anylang-dev/next";
-
-    const nextConfig = {};
-
-    export default anylang({
-      runtimeImport: "@/anylang",
-    })(nextConfig);
-    ```
-
-    If you use TypeScript and `tr="false"`, add the JSX type augmentation in a global declaration file.
-
-    ```ts src/anylang-env.d.ts
-    import "anylang-dev/jsx-runtime";
-    ```
-  </Tab>
-</Tabs>
-
 ## Scan strings
+
+Run the scan command to generate your locale files and runtime helper.
 
 ```bash
 npx anylang scan
@@ -158,21 +98,3 @@ export function LanguageSelector() {
   );
 }
 ```
-
-## Translate
-
-Add a provider key to `.env`.
-
-```env
-GEMINI_API_KEY=your-provider-key
-```
-
-Then run:
-
-```bash
-npx anylang translate
-```
-
-<Info>
-  `translate` scans first, retranslates changed strings, and skips unchanged target entries.
-</Info>
